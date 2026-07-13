@@ -14,6 +14,7 @@ import { Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Lottie from "lottie-react";
 import secureAnimation from "@/app/assets/lottie/resicon.json";
+
 const RegisterPage = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
@@ -29,13 +30,16 @@ const RegisterPage = () => {
       data[key] = value.toString();
     });
 
-    console.log(data);
+    console.log(data,'all data is');
   };
 
   return (
     <section className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="flex gap-5 rounded-2xl shadow bg-orange-400">
-        <div className="hidden lg:flex flex-col items-center justify-center w-[460px] bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400 rounded-l-2xl p-10 text-white relative overflow-hidden">
+      {/* Container Background Fixed */}
+      <div className="flex gap-0 rounded-2xl shadow-xl bg-white max-w-5xl w-full overflow-hidden">
+
+        {/* Left Banner Section */}
+        <div className="hidden lg:flex flex-col items-center justify-center w-[460px] bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400 p-10 text-white relative overflow-hidden shrink-0">
 
           {/* Background Blur */}
           <div className="absolute -top-20 -left-20 w-60 h-60 rounded-full bg-white/10 blur-3xl" />
@@ -52,56 +56,41 @@ const RegisterPage = () => {
 
           {/* Content */}
           <div className="relative z-10 text-center mt-4">
-
             <h2 className="text-4xl font-bold leading-tight">
               Shop With <br /> Confidence
             </h2>
-
-            <p className="mt-5 text-orange-100 leading-7">
+            <p className="mt-5 text-orange-100 leading-7 text-sm">
               Create your BurmudaShop account and enjoy a secure,
               faster and smarter shopping experience with exclusive
               offers, order tracking and wishlist support.
             </p>
-
           </div>
 
           {/* Features */}
-
           <div className="relative z-10 mt-10 grid grid-cols-2 gap-4 w-full">
-
             <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 text-center">
               <h3 className="text-2xl font-bold">🔒</h3>
-              <p className="mt-2 text-sm font-medium">
-                Secure Account
-              </p>
+              <p className="mt-2 text-sm font-medium">Secure Account</p>
             </div>
-
             <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 text-center">
               <h3 className="text-2xl font-bold">⚡</h3>
-              <p className="mt-2 text-sm font-medium">
-                Fast Checkout
-              </p>
+              <p className="mt-2 text-sm font-medium">Fast Checkout</p>
             </div>
-
             <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 text-center">
               <h3 className="text-2xl font-bold">❤️</h3>
-              <p className="mt-2 text-sm font-medium">
-                Wishlist
-              </p>
+              <p className="mt-2 text-sm font-medium">Wishlist</p>
             </div>
-
             <div className="bg-white/15 backdrop-blur-md rounded-xl p-4 text-center">
               <h3 className="text-2xl font-bold">📦</h3>
-              <p className="mt-2 text-sm font-medium">
-                Order Tracking
-              </p>
+              <p className="mt-2 text-sm font-medium">Order Tracking</p>
             </div>
-
           </div>
 
         </div>
-        <div className="max-w-3xl w-full">
-          <div className="bg-white rounded-r-2xl border border-slate-100 shadow-xl p-6 md:p-10">
+
+        {/* Right Form Section */}
+        <div className="flex-1">
+          <div className="bg-white p-6 md:p-10">
 
             {/* Header */}
             <div className="text-center mb-10">
@@ -212,7 +201,6 @@ const RegisterPage = () => {
                 </TextField>
               </div>
 
-
               {/* Image */}
               <TextField isRequired name="image" className="flex flex-col gap-1.5">
                 <Label className="text-sm font-semibold text-slate-700">Image Url</Label>
@@ -299,21 +287,20 @@ const RegisterPage = () => {
                 <div className="flex-1 border-t border-slate-200"></div>
               </div>
 
-              {/* Social Buttons */}
-              <div className="grid sm:grid-cols-2 gap-4 w-full">
+              {/* Google Button - Fixed to Full Width */}
+              <div className="w-full">
                 <Button
-
-                  className="h-12 border border-slate-200 bg-white hover:bg-slate-50 transition font-medium text-slate-700 rounded-xl gap-3"
+                  className="w-full h-12 border border-slate-200 bg-white hover:bg-slate-50 transition font-medium text-slate-700 rounded-xl gap-3"
                 >
-                  <Image width={100} height={100}
+                  <Image
+                    width={20}
+                    height={20}
                     src="https://www.svgrepo.com/show/475656/google-color.svg"
                     alt="Google"
                     className="w-5 h-5"
                   />
                   Sign up with Google
                 </Button>
-
-
               </div>
 
               {/* Footer Sign in trigger */}
