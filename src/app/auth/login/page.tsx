@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   Form,
@@ -10,28 +10,50 @@ import {
   FieldError,
   Button,
 } from "@heroui/react";
-import { Eye, EyeOff } from "lucide-react";
+import { CircleAlert, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 import Lottie from "lottie-react";
 import secureAnimation from "@/app/assets/lottie/login.json";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
-  const [showPassword, setShowPassword] = React.useState(false);
-  const [passwordValue, setPasswordValue] = React.useState("");
+  const router = useRouter();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const data: Record<string, string> = {};
+    setErrorMessage("");
+    setLoading(true);
 
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
+    const formData = new FormData(e.currentTarget);
+
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    const { error } = await authClient.signIn.email({
+      email,
+      password,
     });
 
-    console.log(data);
-  };
+    setLoading(false);
 
+    if (error) {
+      setErrorMessage(error.message ?? "Invalid email or password");
+      return;
+    }
+
+    // Success
+    router.push("/");
+    router.refresh();
+  };
   return (
     <section className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       {/* Main Container Card */}
@@ -60,6 +82,7 @@ const LoginPage = () => {
             <p className="mt-4 text-orange-50 text-sm leading-relaxed">
               Create your BurmudaShop account and enjoy a secure, faster and smarter shopping experience with exclusive offers.
             </p>
+
           </div>
 
           {/* Features Grid */}
@@ -157,6 +180,12 @@ const LoginPage = () => {
             >
               Create Account
             </Button>
+            {errorMessage && (
+              <div className="flex items-center gap-2 rounded-xl bg-red-50 border border-red-200 p-3">
+                <CircleAlert className="h-5 w-5 text-red-500" />
+                <p className="text-sm text-red-600">{errorMessage}</p>
+              </div>
+            )}
 
             {/* Divider */}
             <div className="flex items-center gap-4 py-2">
