@@ -42,6 +42,10 @@ const RegisterPage = () => {
     const password = formData.get("password") as string;
     const confirmPassword = formData.get("confirmPassword") as string;
     const image=formData.get("image") as string;
+    const num = formData.get("num") as string;
+    const address = formData.get("address") as string;
+    const city = formData.get("city") as string;
+    const postCode = formData.get("postCode") as string;
 
     if (password !== confirmPassword) {
       setLoading(false);
@@ -54,6 +58,10 @@ const RegisterPage = () => {
       email,
       password,
       image,
+      address,
+      num,
+      city ,
+      postCode
     });
 
     setLoading(false);
@@ -250,7 +258,7 @@ return (
             </TextField>
 
             {/* Row 3: Phone */}
-            <TextField isRequired name="phone" className="flex flex-col gap-1.5">
+            <TextField isRequired name="num" className="flex flex-col gap-1.5">
               <Label className="text-sm font-semibold text-slate-700">Phone Number</Label>
               <Input
                 placeholder="Enter your phone number"
@@ -280,7 +288,7 @@ return (
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
 
-              <TextField isRequired name="postalCode" className="flex flex-col gap-1.5">
+              <TextField isRequired name="postCode" className="flex flex-col gap-1.5">
                 <Label className="text-sm font-semibold text-slate-700">Postal Code</Label>
                 <Input
                   placeholder="2200"

@@ -6,6 +6,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Logo from "@/app/icon.png"
 import { authClient } from "@/lib/auth-client";
+import { Button } from "@heroui/react";
 
 interface NavLink {
   name: string;
@@ -67,6 +68,13 @@ const Navbar = (): React.JSX.Element => {
               >
                 <LayoutDashboard className="h-7 w-7 text-orange-500" />
               </Link>
+
+                <Button
+
+                  onPress={() => authClient.signOut()}
+                >
+                  Logout
+                </Button>
 
               <Image
                 src={user.image || "/default-avatar.png"}
@@ -157,6 +165,7 @@ const Navbar = (): React.JSX.Element => {
                 >
                   Dashboard
                 </Link>
+                
               </div>
             ) : (
               <div className="flex flex-col gap-3">
@@ -175,6 +184,8 @@ const Navbar = (): React.JSX.Element => {
                 >
                   Register
                 </Link>
+
+                   
               </div>
             )}
           </div>
