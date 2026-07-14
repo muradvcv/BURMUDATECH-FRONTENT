@@ -12,8 +12,13 @@ import {
   FaGithub,
   FaLinkedinIn,
 } from "react-icons/fa6";
+import { usePathname } from "next/navigation";
 
-const Footer = (): React.JSX.Element => {
+const Footer = () => {
+  const pathname=usePathname()
+  if(pathname.includes('/dashboard')){
+    return null
+  }
   return (
     <footer className="bg-slate-900 text-white">
       <div className="mx-auto max-w-7xl px-5 py-16">

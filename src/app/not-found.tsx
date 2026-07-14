@@ -7,7 +7,7 @@ import notFoundAnimation from "@/app/assets/lottie/notFound.json";
 
 const NotFoundPage = () => {
   return (
-    <section className="min-h-[60vh] flex flex-col items-center justify-center bg-white px-4 pb-20">
+    <section className="min-h-screen flex flex-col items-center justify-center bg-white px-4 pb-20">
 
       {/* Lottie */}
       <Lottie

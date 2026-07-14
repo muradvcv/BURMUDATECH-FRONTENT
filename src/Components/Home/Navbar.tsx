@@ -7,6 +7,7 @@ import Image from "next/image";
 import Logo from "@/app/icon.png"
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
+import { usePathname } from "next/navigation";
 
 interface NavLink {
   name: string;
@@ -21,12 +22,17 @@ const navLinks: NavLink[] = [
   { name: "Blog", href: "/blog" },
 ];
 
-const Navbar = (): React.JSX.Element => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
+  const pathname = usePathname();
+
+  if (pathname.startsWith("/dashboard")) {
+    return null;
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
@@ -63,7 +69,7 @@ const Navbar = (): React.JSX.Element => {
           ) : user ? (
             <div className="flex items-center gap-3">
               <Link
-                href="/dashboard"
+                href={`/dashboard/${user?.role}`}
                 className="rounded-full p-2 hover:bg-orange-100 transition"
               >
                 <LayoutDashboard className="h-7 w-7 text-orange-500" />
