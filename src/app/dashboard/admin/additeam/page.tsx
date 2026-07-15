@@ -67,7 +67,8 @@ const AddItem = () => {
 
             {/* Input field for Image URL */}
             <input
-              type="text"
+              type="url"
+              required
               placeholder="Or paste direct image URL here..."
               className="mt-3 block w-full px-3 py-1.5 bg-white border border-orange-200 rounded-lg text-xs focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none placeholder-gray-400"
               value={formData.imageUrl}
