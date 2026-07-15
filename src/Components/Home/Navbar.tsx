@@ -6,7 +6,6 @@ import { useState } from "react";
 import Image from "next/image";
 import Logo from "@/app/icon.png"
 import { authClient } from "@/lib/auth-client";
-import { Button } from "@heroui/react";
 import { usePathname } from "next/navigation";
 
 interface NavLink {
@@ -18,7 +17,7 @@ const navLinks: NavLink[] = [
   { name: "Home", href: "/" },
   { name: "Explore Products", href: "/products" },
   { name: "About", href: "/about" },
-  { name: "Contact", href: "/contact" },
+  { name: "Profile", href: "/dashboard/myprofile" },
   { name: "Blog", href: "/blog" },
 ];
 
@@ -76,13 +75,13 @@ const Navbar = () => {
               </Link>
 
 
-                <Image
-                  src={user.image || "/default-avatar.png"}
-                  alt={user.name}
-                  width={48}
-                  height={48}
-                  className="h-12 w-12 rounded-full border-2 border-orange-500 object-cover"
-                />
+              <Image
+                src={user.image || "/default-avatar.png"}
+                alt={user.name}
+                width={48}
+                height={48}
+                className="h-12 w-12 rounded-full border-2 border-orange-500 object-cover"
+              />
             </div>
           ) : (
             <>
@@ -144,13 +143,13 @@ const Navbar = () => {
             ) : user ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                    <Image
-                      src={user.image || "/default-avatar.png"}
-                      alt={user.name}
-                      width={48}
-                      height={48}
-                      className="h-12 w-12 rounded-full border-2 border-orange-500 object-cover"
-                    />
+                  <Image
+                    src={user.image || "/default-avatar.png"}
+                    alt={user.name}
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-full border-2 border-orange-500 object-cover"
+                  />
 
                   <div>
                     <h3 className="font-semibold">{user.name}</h3>
@@ -159,13 +158,13 @@ const Navbar = () => {
                 </div>
 
                 <Link
-                  href="/dashboard"
+                  href={`/dashboard/${user?.role}`}
                   onClick={() => setIsOpen(false)}
                   className="block rounded-lg bg-orange-500 py-2 text-center font-semibold text-white hover:bg-orange-600"
                 >
                   Dashboard
                 </Link>
-                
+
               </div>
             ) : (
               <div className="flex flex-col gap-3">
@@ -185,7 +184,7 @@ const Navbar = () => {
                   Register
                 </Link>
 
-                   
+
               </div>
             )}
           </div>

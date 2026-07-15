@@ -4,81 +4,71 @@ import { authClient, useSession } from "@/lib/auth-client";
 import { Button } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Envelope } from "@gravity-ui/icons";
 import { LogOut, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const Profile = () => {
-  const { data: session} = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const user = session?.user;
 
   if (!user) return null;
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      {/* Top accent bar */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600" />
+    <div className=" overflow-hidden rounded-xl border border-gray-200/80 bg-white p-3 shadow-md dark:border-slate-800 dark:bg-slate-900">
+      <div className="flex items-center gap-3">
 
-      {/* Profile */}
-      <Link
-        href={`/public/freelancers/${user.id}`}
-        className="group flex items-center gap-4 p-4 transition-colors hover:bg-orange-50/60"
-      >
-        <div className="relative shrink-0">
+        {/* বাম পাশে: গোল এভাটার (ক্লিক করলে প্রোফাইলে যাবে) */}
+        <Link
+          href={`/dashboard/myprofile`}
+          className="group relative shrink-0"
+        >
           <Image
             src={user.image || "/default-avatar.png"}
             alt={user.name ?? "User"}
-            width={56}
-            height={56}
-            className="h-14 w-14 rounded-full border-2 border-orange-500 object-cover ring-2 ring-white"
+            width={44}
+            height={44}
+            className="h-11 w-11 rounded-full border-2 border-orange-500 object-cover ring-2 ring-orange-50 dark:ring-slate-800 transition-transform group-hover:scale-105"
           />
-          {/* অনলাইন / ভেরিফাইড স্ট্যাটাস ডট */}
-          <span className="absolute -bottom-0.5 -right-0.5 h-4 w-4 rounded-full border-2 border-white bg-green-500" />
-        </div>
+          {/* অনলাইন ইন্ডিকেটর */}
+          <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full border-2 border-white bg-green-500 dark:border-slate-900" />
+        </Link>
 
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5">
-            <h2 className="truncate text-base font-semibold text-gray-900">
+        {/* ডান পাশে: নাম এবং তার নিচে লগআউট বাটন */}
+        <div className="flex-1 min-w-0 flex flex-col gap-1">
+
+          {/* ইউজার নেম */}
+          <Link
+            href={`/dashboard/myprofile`}
+            className="group flex items-center gap-1"
+          >
+            <h2 className="truncate text-sm font-bold text-gray-900 dark:text-white group-hover:text-orange-500 transition-colors">
               {user.name ?? "Unknown User"}
             </h2>
             {user.role === "admin" && (
               <ShieldCheck className="h-4 w-4 shrink-0 text-orange-500" />
             )}
-          </div>
+          </Link>
 
-          <div className="mt-1.5 flex items-center gap-1.5 text-sm text-gray-500">
-            <Envelope className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">{user.email}</span>
-          </div>
+          {/* লগআউট বাটন */}
+          <Button
+            onPress={async () => {
+              await authClient.signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.replace("/");
+                  },
+                },
+              });
+            }}
+            className="flex w-fit items-center gap-1 rounded-lg bg-orange-50 hover:bg-red-50 px-2 py-0.5 text-[11px] font-bold text-orange-600 hover:text-red-600 dark:bg-slate-800 dark:hover:bg-red-950/30 dark:text-orange-400 dark:hover:text-red-400 h-6 transition-all duration-200"
+          >
+            <LogOut className="h-4 w-4" />
+            Logout
+          </Button>
 
-          {user.role && (
-            <span className="mt-2 inline-block rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium capitalize text-orange-700">
-              {user.role}
-            </span>
-          )}
         </div>
-      </Link>
-
-      {/* Divider */}
-      <div className="border-t border-gray-100" />
-
-      {/* Footer */}
-      <Button
-        onPress={async () => {
-          await authClient.signOut({
-            fetchOptions: {
-              onSuccess: () => {
-                router.replace("/");
-              },
-            },
-          });
-        }}
-        className="flex w-full items-center justify-center gap-2 rounded-none rounded-b-2xl bg-transparent py-6 font-semibold text-gray-500 transition-all duration-300 hover:bg-red-50 hover:text-red-600"
-      >
-        <LogOut className="h-4 w-4 text-red-600" />
-        Logout
-      </Button>
+      </div>
     </div>
   );
 };

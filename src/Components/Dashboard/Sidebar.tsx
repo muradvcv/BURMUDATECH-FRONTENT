@@ -3,11 +3,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ComponentType, SVGProps } from "react";
 import {
-  Archive,
   Bars,
-  CirclePlus,
   LayoutHeaderCells,
-  ListCheck,
 } from "@gravity-ui/icons";
 import {House,PackagePlus,Package,ShoppingCart,Users,CircleDollarSign,} from "lucide-react";
 
@@ -25,10 +22,10 @@ type NavItem = {
 
 const navItems: Record<Role, NavItem[]> = {
   user: [
-    { icon: LayoutHeaderCells, label: "Overview", href: "/dashboard/client" },
+    { icon: LayoutHeaderCells, label: "Overview", href: "/dashboard/user" },
     { icon: PackagePlus, label: "Add Product", href: "/dashboard/admin/additeam" },
     { icon: Package, label: "All Products", href: "/dashboard/admin/manageproduct" },
-    { icon: Users, label: "My profile", href: "/dashboard/admin/myprofile" },
+    { icon: Users, label: "My profile", href: "/dashboard/myprofile" },
   ],
   admin: [
     { icon: House, label: "Overview", href: "/dashboard/admin" },
@@ -37,6 +34,7 @@ const navItems: Record<Role, NavItem[]> = {
     { icon: ShoppingCart, label: "Manage Orders", href: "/dashboard/admin/manageorders" },
     { icon: Users, label: "Manage Users", href: "/dashboard/admin/manageuser" },
     { icon: CircleDollarSign, label: "Total Revenue", href: "/dashboard/admin/revenue" },
+    { icon: Users, label: "My Profile", href: "/dashboard/myprofile" },
   ],
 };
 
@@ -150,7 +148,7 @@ export default function Sidebar() {
                 );
               })}
             </nav>
-            {/* সবসময় নিচে থাকার জন্য mt-auto */}
+            {/* always bottom mt-auto */}
             <div className="mt-auto">
               <Profile />
             </div>
