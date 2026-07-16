@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Formbg from '@/app/assets/formbg.png';
 import { BiImageAdd } from 'react-icons/bi';
+import { addProduct } from '@/lib/actions/product';
+import { authClient } from '@/lib/auth-client';
 
 interface ProductFormData {
   title: string;
@@ -15,6 +17,7 @@ interface ProductFormData {
 }
 
 const AddItem = () => {
+  const { data: session } = authClient.useSession();
   const [formData, setFormData] = useState<ProductFormData>({
     title: '',
     price: '',
@@ -24,9 +27,34 @@ const AddItem = () => {
     imageUrl: '',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitted Data:', formData);
+
+    if (!session?.user) return;
+
+    const product = {
+      ...formData,
+      userId: session.user.id,
+      userEmail: session.user.email,
+    };
+
+    const res = await addProduct(product);
+
+    if (res.success) {
+      alert("✅ Product added successfully!");
+
+      // Form Clear
+      setFormData({
+        title: "",
+        price: "",
+        category: "",
+        shortDescription: "",
+        fullDescription: "",
+        imageUrl: "",
+      });
+    } else {
+     alert("❌ Failed to add product!");
+    }
   };
 
   return (
@@ -120,9 +148,9 @@ const AddItem = () => {
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
               >
                 <option value="">Select Category</option>
-                <option value="Appliances - Kitchen">Appliances - Kitchen</option>
+                <option value="food">Food</option>
                 <option value="Electronics">Electronics</option>
-                <option value="Gadgets">Gadgets</option>
+                <option value="cloth">cloth</option>
               </select>
             </div>
 
